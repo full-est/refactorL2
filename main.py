@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from models import Todo
 
 app = FastAPI()
 
@@ -19,6 +20,10 @@ async def get_todos():
 # Get single todo
 
 # Create a todo
+@app.post("/todos")
+async def create_todos(todo: Todo):
+    todos.append(todo)
+    return {"message": "Todo has been added"}
 
 # Update a todo
 
