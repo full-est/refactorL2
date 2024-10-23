@@ -32,10 +32,16 @@ async def create_todos(todo: Todo):
     return {"message": "Todo has been added"}
 
 # Update a todo
+@app.put("/todos/{todo_id}")
+async def update_todo(todo_id: int, todo_obj: Todo):
+    for todo in todos:
+        if todo.id == todo_id:
+            todo.id = todo_id
+            todo.item = todo_obj.item
+            return {"todo": todo}
+    return {"message": "No todos found to update"}
 
 # Delete a todo
-
-
 @app.delete("/todos/{todo_id}")
 async def delete_todos(todo_id: int):
     for todo in todos:
