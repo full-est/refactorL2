@@ -2,6 +2,8 @@
 
 This is a simple CRUD (Create, Read, Update, Delete) application for managing todos, built using FastAPI.
 
+![Banner](./img/Banner.png)
+
 ## Features
 
 - Get all todos
