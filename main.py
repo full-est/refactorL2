@@ -18,6 +18,12 @@ async def get_todos():
 
 
 # Get single todo
+@app.get("/todos/{todo_id}")
+async def get_todos(todo_id: int):
+    for todo in todos:
+        if (todo.id == todo_id):
+            return {"todo": todo}
+    return {"message": "No todos have been found!"}
 
 # Create a todo
 @app.post("/todos")
