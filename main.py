@@ -19,7 +19,7 @@ async def get_todos():
 
 # Get single todo
 @app.get("/todos/{todo_id}")
-async def get_todos(todo_id: int):
+async def get_todo(todo_id: int):
     for todo in todos:
         if (todo.id == todo_id):
             return {"todo": todo}
@@ -34,3 +34,12 @@ async def create_todos(todo: Todo):
 # Update a todo
 
 # Delete a todo
+
+
+@app.delete("/todos/{todo_id}")
+async def delete_todos(todo_id: int):
+    for todo in todos:
+        if (todo.id == todo_id):
+            todos.remove(todo)
+            return {"message": "Todo has been deleted"}
+    return {"message": "No todos have been found!"}
