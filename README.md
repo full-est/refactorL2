@@ -22,7 +22,7 @@ This is a simple CRUD (Create, Read, Update, Delete) application for managing to
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/fastapi-crud.git
+   git clone https://github.com/FahimFBA/fastapi-crud.git
    cd fastapi-crud
    ```
 
