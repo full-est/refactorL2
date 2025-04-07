@@ -15,6 +15,11 @@ def test_create_todo():
     assert response.status_code == 200
     assert response.json() == {"message": "Todo has been added"}
 
+def test_create_invalid_todo():
+    response = client.post("/todos", json={"id": -2, "item": "task"})
+    assert response.status_code == 400
+    assert response.json() == {"detail": "ID должно быть положительным числом"}
+
 def test_get_all_todos():
     response = client.get("/todos")
     assert response.status_code == 200
@@ -31,14 +36,23 @@ def test_get_single_todo_not_found():
     assert response.json() == {"detail": "No todos have been found!"}
 
 def test_uptade_todo():
-    response = client.put("/todos/2", json={"id": 5, "item": "super task"})
+    response = client.put("/todos/2", json={"item": "super task"})
     assert response.status_code == 200
     assert response.json() == {"id": 2, "item": "super task"}
 
 def test_uptade_todo_not_found():
-    response = client.put("/todos/5", json={"id": 5, "item": "super task"})
+    response = client.put("/todos/5", json={"item": "super task"})
     assert response.status_code == 404
     assert response.json() == {"detail": "No todos found to update"}
+
+def test_update_invalid_todo():
+     response = client.put("/todos/-1", json={"item": "task"})
+     assert response.status_code == 400
+     assert response.json() == {"detail": "ID должно быть положительным числом"}
+     response = client.put("/todos/1", json={"item": ""})
+     assert response.status_code == 400
+     assert response.json() == {"detail": "Поле 'item' не может быть пустым"}
+
 
 def test_delete_todo():
     response = client.delete("/todos/1")
@@ -51,3 +65,8 @@ def test_delete_todo_not_found():
     assert response.json() == {"detail": "No todos have been found!"}
     response = client.get("/todos")
     assert response.json() == [{"id": 2, "item": "super task"}]
+
+def test_delete_invalid_todo():
+    response = client.delete("/todos/-23")
+    assert response.status_code == 400
+    assert response.json() == {"detail": "ID должно быть положительным числом"}
