@@ -1,7 +1,7 @@
 from fastapi import HTTPException, APIRouter
 from .models import Todo, TodoUpdate
 from typing import List
-from .func import validate_id
+from .func import validate_id, duplicate_id
 
 
 routers = APIRouter()
@@ -31,6 +31,7 @@ async def get_todo(todo_id: int):
 @routers.post("/todos")
 async def create_todos(todo: Todo):
     validate_id(todo.id)
+    duplicate_id(todo.id, todos)
     todos.append(todo)
     return {"message": "Todo has been added"}
 

@@ -2,7 +2,8 @@ from fastapi.testclient import TestClient
 from fastapi import HTTPException
 import pytest
 from app.main import app
-from app.func import validate_id
+from app.func import validate_id, duplicate_id
+from app.models import Todo
 
 client = TestClient(app)
 
@@ -19,6 +20,17 @@ def test_validate_id_negative():
         validate_id(-5)
     assert exc_info.value.status_code == 400
     assert "ID должен быть целым числом больше нуля" in exc_info.value.detail
+
+def test_duplicate_id():
+    todos = [Todo(id=1, item="Задача 1"), Todo(id=2, item="Задача 2")]
+    duplicate_id(2)
+
+def test_duplicate_id():
+    todos = [Todo(id=1, item="task 1"), Todo(id=2, item="task 2")]
+    with pytest.raises(HTTPException) as exc_info:
+        duplicate_id(1,todos)
+    assert exc_info.value.status_code == 400
+    assert "Todo с таким ID уже существует" in exc_info.value.detail
 
 def test_root():
     response = client.get("/")
